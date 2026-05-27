@@ -655,7 +655,7 @@ function buildEditor(){
           </div>
         </div>
         <div>
-          <div class="field-label">Heading Size <span id="fsLabel-${i}">${s.fontSize||100}%</span></div>
+          <div class="field-label">Heading Size <span style="color:var(--dim);font-size:9px">auto-fit · fine-tune</span> <span id="fsLabel-${i}">${s.fontSize||100}%</span></div>
           <div class="range-wrap">
             <input type="range" min="50" max="150" value="${s.fontSize||100}" oninput="upd(${i},'fontSize',parseInt(this.value));document.getElementById('fsLabel-${i}').textContent=this.value+'%'">
           </div>
@@ -753,6 +753,36 @@ function renderSlide(i){
 }
 
 // ─────────────────────────────────────────
+// AUTO-FIT HEADING SIZE
+// Binary-search the largest font size whose wrapped text still fits the
+// heading box — short headings grow big and dominant, long ones shrink to fit.
+// ─────────────────────────────────────────
+let _measEl=null;
+function measureFitSize(linesHTML, fontFamily, fontWeight, lineHeight, boxW, boxH, minSize, maxSize){
+  if(!linesHTML || !String(linesHTML).trim()) return minSize;
+  if(!_measEl){
+    _measEl=document.createElement('div');
+    _measEl.style.cssText='position:absolute;left:-99999px;top:0;visibility:hidden;padding:0;margin:0;';
+    document.body.appendChild(_measEl);
+  }
+  const el=_measEl;
+  el.style.width=boxW+'px';
+  el.style.fontFamily=fontFamily;
+  el.style.fontWeight=fontWeight;
+  el.style.lineHeight=lineHeight;
+  el.style.whiteSpace='normal';
+  el.style.wordBreak='break-word';
+  el.innerHTML=linesHTML;
+  let lo=minSize, hi=maxSize, best=minSize;
+  for(let k=0;k<16;k++){
+    const mid=(lo+hi)/2;
+    el.style.fontSize=mid+'px';
+    if(el.scrollHeight<=boxH && el.scrollWidth<=boxW+1){ best=mid; lo=mid; } else { hi=mid; }
+  }
+  return Math.floor(best);
+}
+
+// ─────────────────────────────────────────
 // BUILD SLIDE HTML
 // ─────────────────────────────────────────
 function buildSlideHTML(s, idx, th, acc, bgImg){
@@ -797,7 +827,16 @@ function buildSlideHTML(s, idx, th, acc, bgImg){
   const wm=`<div style="position:absolute;bottom:20px;left:22px;font-family:${th.monoFont};font-size:10px;letter-spacing:.18em;text-transform:uppercase;${aC};z-index:12;opacity:.55">Carousel Builder</div>`;
   const sn=`<div style="position:absolute;top:20px;right:22px;font-family:${th.monoFont};font-size:10px;letter-spacing:.15em;${aC};z-index:12;opacity:.55">${slideNum}</div>`;
 
-  const headFontSize = Math.round((s.type==='cover'?th.headSize:s.type==='cta'?th.headSize:th.contentHeadSize)*fsScale);
+  // Auto-fit: base size found by measurement, then scaled by the per-slide slider (default 100%).
+  const headBoxW = W - 104; // 52px horizontal padding each side
+  let autoMin, autoMax, autoBoxH, headWeight;
+  if(s.type==='cover'){ autoMin=Math.round(th.headSize*0.55); autoMax=Math.round(th.headSize*1.3); autoBoxH=H*0.46; headWeight=900; }
+  else if(s.type==='cta'){ autoMin=Math.round(th.headSize*0.6); autoMax=Math.round(th.headSize*1.2); autoBoxH=H*0.30; headWeight=900; }
+  else { autoMin=Math.round(th.contentHeadSize*0.6); autoMax=Math.round(th.contentHeadSize*1.5); autoBoxH=H*0.40; headWeight=700; }
+  const headLH = s.type==='cover'?coverLH:s.type==='cta'?ctaLH:contentLH;
+  const measureLines = (s.heading||'').split('\n').join('<br>');
+  const autoFit = measureFitSize(measureLines, th.headFont, headWeight, headLH, headBoxW, autoBoxH, autoMin, autoMax);
+  const headFontSize = Math.max(8, Math.round(autoFit*fsScale));
 
   function headingHTML(text, accent, italic){
     const lines=(text||'').split('\n');
@@ -1018,6 +1057,8 @@ function showToast(msg,type=''){
 window.addEventListener('load',()=>{
   renderAll();
   buildEditor();
+  // re-measure once web fonts finish loading so auto-fit uses real font metrics
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(()=>renderAll());
   let rt;
   window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(renderAll,150);});
 });
