@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CineGrok — Panchayat Carousel</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0a0a0a;
+    --amber: #f0a500;
+    --amber-dim: #b87b00;
+    --white: #ffffff;
+    --grey: #cccccc;
+    --mid: #888888;
+    --slide-size: 540px;
+  }
+
+  body {
+    background: #111;
+    font-family: 'DM Sans', sans-serif;
+    padding: 40px 24px 80px;
+    color: var(--white);
+  }
+
+  h1.page-title {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mid);
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  h1.page-title span { color: var(--amber); }
+
+  .carousel-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .slide-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    width: var(--slide-size);
+  }
+
+  /* ── SLIDE BASE ── */
+  .slide {
+    width: var(--slide-size);
+    height: var(--slide-size);
+    background: var(--black);
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  /* grain overlay */
+  .slide::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  /* corner wordmark */
+  .wordmark {
+    position: absolute;
+    bottom: 20px;
+    left: 22px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--amber);
+    z-index: 5;
+    opacity: 0.7;
+  }
+
+  /* slide number */
+  .slide-num {
+    position: absolute;
+    top: 20px;
+    right: 22px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    color: var(--amber);
+    z-index: 5;
+    opacity: 0.6;
+  }
+
+  /* amber rule — decorative line used in several slides */
+  .rule {
+    width: 36px;
+    height: 2px;
+    background: var(--amber);
+    margin-bottom: 20px;
+  }
+
+  /* ── SLIDE 1: COVER ── */
+  #slide1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 52px 52px 52px 52px;
+  }
+  #slide1 .eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 28px;
+  }
+  #slide1 .hero {
+    font-family: 'Playfair Display', serif;
+    font-size: 46px;
+    font-weight: 900;
+    line-height: 1.08;
+    color: var(--white);
+    margin-bottom: 28px;
+  }
+  #slide1 .hero em {
+    font-style: italic;
+    color: var(--amber);
+  }
+  #slide1 .sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.65;
+    color: var(--grey);
+    max-width: 340px;
+  }
+  /* large background number */
+  #slide1 .bg-num {
+    position: absolute;
+    bottom: -20px;
+    right: -10px;
+    font-family: 'Playfair Display', serif;
+    font-size: 220px;
+    font-weight: 900;
+    color: var(--amber);
+    opacity: 0.04;
+    line-height: 1;
+    z-index: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  /* ── SLIDES 2–6: CONTENT ── */
+  .content-slide {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 52px 52px 64px 52px;
+  }
+  .content-slide .label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 22px;
+  }
+  .content-slide .body {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--white);
+    margin-bottom: 20px;
+  }
+  .content-slide .body em {
+    font-style: italic;
+    color: var(--amber);
+  }
+  .content-slide .detail {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: #aaaaaa;
+    max-width: 380px;
+  }
+  /* thin left border accent */
+  .content-slide .accent-bar {
+    position: absolute;
+    left: 0;
+    top: 30%;
+    height: 40%;
+    width: 3px;
+    background: var(--amber);
+    opacity: 0.25;
+  }
+
+  /* ── SLIDE 7: THE QUESTION ── */
+  #slide7 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 52px;
+    background: #0a0a0a;
+  }
+  #slide7 .q-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 24px;
+  }
+  #slide7 .big-q {
+    font-family: 'Playfair Display', serif;
+    font-size: 34px;
+    font-weight: 900;
+    font-style: italic;
+    line-height: 1.2;
+    color: var(--white);
+    margin-bottom: 28px;
+    max-width: 400px;
+  }
+  #slide7 .big-q span { color: var(--amber); }
+  #slide7 .q-follow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: #999;
+    max-width: 360px;
+  }
+  #slide7 .q-deco {
+    position: absolute;
+    top: 28px;
+    right: 40px;
+    font-family: 'Playfair Display', serif;
+    font-size: 180px;
+    font-weight: 900;
+    font-style: italic;
+    color: var(--amber);
+    opacity: 0.05;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  /* ── SLIDE 8: CTA ── */
+  #slide8 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 52px;
+    background: var(--black);
+  }
+  #slide8 .cta-rule {
+    width: 48px;
+    height: 1px;
+    background: var(--amber);
+    margin-bottom: 32px;
+  }
+  #slide8 .find {
+    font-family: 'Playfair Display', serif;
+    font-size: 38px;
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  #slide8 .find em {
+    font-style: italic;
+    color: var(--amber);
+  }
+  #slide8 .url {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    color: var(--amber);
+    margin-bottom: 10px;
+  }
+  #slide8 .adira {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-top: 8px;
+  }
+  #slide8 .cta-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, #1a1200 0%, #0a0a0a 65%);
+    z-index: 0;
+  }
+  #slide8 > *:not(.cta-bg) { position: relative; z-index: 2; }
+
+  /* download button */
+  .dl-btn {
+    background: none;
+    border: 1px solid #2a2a2a;
+    color: var(--amber);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 10px 28px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+  }
+  .dl-btn:hover {
+    background: var(--amber);
+    color: #000;
+    border-color: var(--amber);
+  }
+
+  /* divider between slides */
+  .slide-divider {
+    width: 1px;
+    height: 32px;
+    background: #2a2a2a;
+    margin: 0 auto;
+  }
+
+</style>
+</head>
+<body>
+
+<h1 class="page-title">CineGrok / <span>Panchayat Carousel</span> / ADIRA</h1>
+
+<div class="carousel-grid">
+
+  <!-- ── SLIDE 1 ── -->
+  <div class="slide-unit">
+    <div class="slide" id="slide1">
+      <div class="bg-num">?</div>
+      <div class="eyebrow">CineGrok × Panchayat S4</div>
+      <div class="hero">The village<br>you grew up<br>in is <em>a film</em><br>waiting.</div>
+      <p class="sub">73 votes decided Phulera. What story is sitting in the place you haven't written yet?</p>
+      <div class="wordmark">CineGrok</div>
+    </div>
+    <button class="dl-btn" onclick="downloadSlide('slide1','cinegrok-slide-1.png')">↓ Download Slide 1</button>
+  </div>
+
+  <div class="slide-divider"></div>
+
+  <!-- ── SLIDE 2 ── -->
+  <div class="slide-unit">
+    <div class="slide content-slide" id="slide2">
+      <div class="accent-bar"></div>
+      <div class="slide-num">02 / 08</div>
+      <div class="label">The number</div>
+      <div class="body">Panchayat Season 3.<br><em>28.2 million</em> viewers.<br>Most-watched Indian<br>show in H1 2024.</div>
+      <p class="detail">Beat Heeramandi. Beat Indian Police Force. Set entirely in a fictional UP village. No stars. No spectacle. Just Phulera.</p>
+      <div class="wordmark">CineGrok</div>
+    </div>
+    <button class="dl-btn" onclick="downloadSlide('slide2','cinegrok-slide-2.png')">↓ Download Slide 2</button>
+  </div>
+
+  <div class="slide-divider"></div>
+
+  <!-- ── SLIDE 3 ── -->
+  <div class="slide-unit">
+    <div class="slide content-slide" id="slide3">
+      <div class="accent-bar"></div>
+      <div class="slide-num">03 / 08</div>
+      <div class="label">The result</div>
+      <div class="body">Kranti Devi beat<br>Manju Devi by<br><em>73 votes.</em></div>
+      <p class="detail">Season 4, June 2025. Four seasons of a show built around a gram panchayat election. The whole country watched a village vote count.</p>
+      <div class="wordmark">CineGrok</div>
+    </div>
+    <button class="dl-btn" onclick="downloadSlide('slide3','cinegrok-slide-3.png')">↓ Download Slide 3</button>
+  </div>
+
+  <div class="slide-divider"></div>
+
+  <!-- ── SLIDE 4 ── -->
+  <div class="slide-unit">
+    <div class="slide content-slide" id="slide4">
+      <div class="accent-bar"></div>
+      <div class="slide-num">04 / 08</div>
+      <div class="label">What the industry missed</div>
+      <div class="body">The industry said<br>"rural stories<br>don't travel."<br>Panchayat has a<br><em>9.0 on IMDb.</em></div>
+      <p class="detail">It's in the IMDb Top 250 TV Shows of all time. Globally. A show about a broken transformer in a UP village.</p>
+      <div class="wordmark">CineGrok</div>
+    </div>
+    <button class="dl-btn" onclick="downloadSlide('slide4','cinegrok-slide-4.png')">↓ Download Slide 4</button>
+  </div>
+
+  <div class="slide-divider"></div>
+
+  <!-- ── SLIDE 5 ── -->
+  <div class="slide-unit">
+    <div class="slide content-slide" id="slide5">
+      <div class="accent-bar"></div>
+      <div class="slide-num">05 / 08</div>
+      <div class="label">Why it works</div>
+      <div class="body">You can't<br><em>art-direct</em><br>your way into<br>a place.</div>
+      <p class="detail">The camera always knows if you don't. The filmmakers who made Panchayat knew Phulera before they wrote it. That's the whole difference.</p>
+      <div class="wordmark">CineGrok</div>
+    </div>
+    <button class="dl-btn" onclick="downloadSlide('slide5','cinegrok-slide-5.png')">↓ Download Slide 5</button>
+  </div>
+
+  <div class="slide-divider"></div>
+
+  <!-- ── SLIDE 6 ── -->
+  <div class="slide-unit">
+    <div class="slide content-slide" id="slide6">
+      <div class="accent-bar"></div>
+      <div class="slide-num">06 / 08</div>
+      <div class="label">On CineGrok right now</div>
+      <div class="body">Eluru. Uttam Nagar.<br>Kochi. Bengaluru.<br><em>Not in spite of<br>where they are.</em></div>
+      <p class="detail">The filmmakers building on CineGrok come from exactly the places the industry isn't watching. That's not a disadvantage. That's the material.</p>
+      <div class="wordmark">CineGrok</div>
+    </div>
+    <button class="dl-btn" onclick="downloadSlide('slide6','cinegrok-slide-6.png')">↓ Download Slide 6</button>
+  </div>
+
+  <div class="slide-divider"></div>
+
+  <!-- ── SLIDE 7: THE QUESTION ── -->
+  <div class="slide-unit">
+    <div class="slide" id="slide7">
+      <div class="q-deco">"</div>
+      <div class="q-label">The question ADIRA is sitting with</div>
+      <div class="big-q">If you had to set your next film in the place you <span>actually</span> grew up—</div>
+      <p class="q-follow">Not a polished version of it. Not a version the industry would greenlight.<br>The real one.<br><br>Would you? And what's actually stopping you?</p>
+      <div class="wordmark">CineGrok</div>
+      <div class="slide-num">07 / 08</div>
+    </div>
+    <button class="dl-btn" onclick="downloadSlide('slide7','cinegrok-slide-7.png')">↓ Download Slide 7</button>
+  </div>
+
+  <div class="slide-divider"></div>
+
+  <!-- ── SLIDE 8: CTA ── -->
+  <div class="slide-unit">
+    <div class="slide" id="slide8">
+      <div class="cta-bg"></div>
+      <div class="cta-rule"></div>
+      <div class="find">Find your<br><em>people.</em></div>
+      <div class="url">cinegrok.in</div>
+      <div class="adira">— ADIRA, CineGrok</div>
+      <div class="wordmark">CineGrok</div>
+      <div class="slide-num">08 / 08</div>
+    </div>
+    <button class="dl-btn" onclick="downloadSlide('slide8','cinegrok-slide-8.png')">↓ Download Slide 8</button>
+  </div>
+
+</div><!-- /carousel-grid -->
+
+<script>
+function downloadSlide(slideId, filename) {
+  const slide = document.getElementById(slideId);
+  html2canvas(slide, {
+    scale: 2,
+    useCORS: true,
+    backgroundColor: '#0a0a0a',
+    logging: false
+  }).then(canvas => {
+    const link = document.createElement('a');
+    link.download = filename;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  });
+}
+</script>
+
+</body>
+</html>
