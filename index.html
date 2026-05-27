@@ -847,7 +847,7 @@ function buildSlideHTML(s, idx, th, acc, bgImg){
     return `<div style="${frame};${bgImg?'':bgC};position:relative;overflow:hidden">
       ${bgLayer}${grain}${decor}${wm}
       <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:56px 52px;z-index:5;${flexAlign}">
-        <div style="font-size:9px;font-weight:500;letter-spacing:.3em;text-transform:uppercase;${aC};margin-bottom:${labelMB}px;font-family:${th.bodyFont};${textAlign}">CineGrok</div>
+        <div style="font-size:9px;font-weight:500;letter-spacing:.3em;text-transform:uppercase;${aC};margin-bottom:${labelMB}px;font-family:${th.bodyFont};${textAlign}">ADIRA × CineGrok</div>
         <div style="font-family:${th.headFont};font-weight:900;font-size:${headFontSize}px;line-height:${coverLH};${tC};margin-bottom:${headMB}px;${textAlign}">${headingHTML(s.heading,acc,th.italic)}</div>
         <div style="font-size:13px;font-weight:300;line-height:${bodyLH};${dC};max-width:360px;font-family:${th.bodyFont};${textAlign}">${s.sub||''}</div>
       </div>
@@ -863,7 +863,7 @@ function buildSlideHTML(s, idx, th, acc, bgImg){
         <div style="width:48px;height:1px;background:${acc};margin:0 auto 28px;opacity:.6"></div>
         <div style="font-family:${th.headFont};font-weight:900;font-size:${headFontSize}px;line-height:${ctaLH};${tC};margin-bottom:16px">${ctaLines}</div>
         <div style="font-size:14px;font-weight:500;letter-spacing:.12em;${aC};font-family:${th.bodyFont};margin-bottom:6px">${s.sub||''}</div>
-        <div style="font-size:10px;font-weight:300;letter-spacing:.2em;text-transform:uppercase;${dC};font-family:${th.monoFont};margin-top:8px">cinegrok.in</div>
+        <div style="font-size:10px;font-weight:300;letter-spacing:.2em;text-transform:uppercase;${dC};font-family:${th.monoFont};margin-top:8px">— ADIRA, CineGrok</div>
       </div>
       <div style="position:absolute;bottom:20px;right:22px;font-family:${th.monoFont};font-size:10px;letter-spacing:.15em;${aC};z-index:12;opacity:.55">${slideNum}</div>
     </div>`;
