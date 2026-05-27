@@ -325,14 +325,14 @@ See Prompt Guide for exact Claude format."></textarea>
       </div>
       <div class="col-switcher">
         <span class="col-lbl">View</span>
-        <button class="col-btn" data-cols="1" onclick="setCols(1)">1</button>
+        <button class="col-btn active" data-cols="1" onclick="setCols(1)">1</button>
         <button class="col-btn" data-cols="2" onclick="setCols(2)">2</button>
-        <button class="col-btn active" data-cols="3" onclick="setCols(3)">3</button>
+        <button class="col-btn" data-cols="3" onclick="setCols(3)">3</button>
       </div>
       <div class="slide-count-badge" id="slideCountBadge">8 slides</div>
     </div>
   </div>
-  <div class="slides-preview cols-3" id="slidesPreview"></div>
+  <div class="slides-preview cols-1" id="slidesPreview"></div>
 </div>
 
 </div><!-- /app -->
@@ -471,7 +471,7 @@ slides = makeDefaultSlides(slideCount);
 // coverLH/contentLH/ctaLH = heading leading; bodyLH = body leading;
 // labelMB/headMB = gap below the eyebrow/label and below the heading.
 const THEMES = {
-  1:{bg:'#0a0a0a',accent:'#f0a500',text:'#ffffff',dim:'#cccccc',headFont:'"Playfair Display",serif',bodyFont:'"DM Sans",sans-serif',monoFont:'"DM Sans",sans-serif',headSize:46,contentHeadSize:28,italic:true,decorType:'bignum',coverLH:1.08,contentLH:1.35,ctaLH:1.1,bodyLH:1.7,labelMB:26,headMB:26},
+  1:{bg:'#0a0a0a',accent:'#f0a500',text:'#ffffff',dim:'#cccccc',headFont:'"Playfair Display",serif',bodyFont:'"DM Sans",sans-serif',monoFont:'"DM Sans",sans-serif',headSize:58,contentHeadSize:36,italic:true,decorType:'bignum',coverLH:1.06,contentLH:1.3,ctaLH:1.08,bodyLH:1.7,labelMB:26,headMB:26},
   2:{bg:'#0e1520',accent:'#00d4ff',text:'#f0f4f8',dim:'#8ba4bc',headFont:'"Bebas Neue",sans-serif',bodyFont:'"IBM Plex Sans",sans-serif',monoFont:'"Space Mono",monospace',headSize:76,contentHeadSize:46,decorType:'topbar',coverLH:1.02,contentLH:1.1,ctaLH:1.0,bodyLH:1.7,labelMB:20,headMB:20},
   3:{bg:'#0d1a10',accent:'#c9a84c',text:'#e8dfc8',dim:'#7a9a7e',headFont:'"Cormorant Garamond",serif',bodyFont:'"DM Sans",sans-serif',monoFont:'"DM Sans",sans-serif',headSize:58,contentHeadSize:34,italic:true,decorType:'circle',coverLH:1.1,contentLH:1.3,ctaLH:1.1,bodyLH:1.7,labelMB:22,headMB:22},
   4:{bg:'#120404',accent:'#e02010',text:'#f5ede0',dim:'#9a7a6a',headFont:'"Anton",sans-serif',bodyFont:'"DM Sans",sans-serif',monoFont:'"DM Sans",sans-serif',headSize:72,contentHeadSize:46,decorType:'slash',coverLH:1.02,contentLH:1.1,ctaLH:1.0,bodyLH:1.7,labelMB:20,headMB:20},
@@ -873,14 +873,17 @@ function renderSlideToCanvas(i){
     const acc=getAccent(th);
     const {w:W,h:H}=dims();
     const clone=document.createElement('div');
-    clone.style.cssText=`width:${W}px;height:${H}px;position:absolute;left:-9999px;top:0;`;
+    // visibility:visible overrides the hidden #renderArea — without it html2canvas captures a blank square
+    clone.style.cssText=`width:${W}px;height:${H}px;position:absolute;left:-9999px;top:0;visibility:visible;`;
     clone.innerHTML=buildSlideHTML(s,i,th,acc,bgImages[i]);
     document.getElementById('renderArea').appendChild(clone);
 
-    // wait for images to load
+    // wait for images AND web fonts — html2canvas falls back to a generic serif
+    // if Playfair/Cormorant/etc. aren't fully loaded at capture time
     const imgs=clone.querySelectorAll('img');
     const loads=Array.from(imgs).map(img=>new Promise(r=>{if(img.complete)r();else{img.onload=r;img.onerror=r;}}));
-    Promise.all(loads).then(()=>{
+    const fontReady=(document.fonts&&document.fonts.ready)?document.fonts.ready:Promise.resolve();
+    Promise.all([...loads,fontReady]).then(()=>{
       html2canvas(clone,{scale:2,useCORS:true,allowTaint:true,backgroundColor:bgImages[i]?null:th.bg,logging:false})
         .then(canvas=>{
           document.getElementById('renderArea').removeChild(clone);
