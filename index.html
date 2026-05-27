@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Carousel Builder — Free Open Source Tool</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Anton&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Anton&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;1,300&family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <style>
@@ -28,18 +28,10 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .hbtn.primary:hover{background:var(--accent);color:#000}
 
 /* ── LAYOUT ── */
-.app{display:flex;min-height:calc(100vh - 53px)}
+.app{display:grid;grid-template-columns:360px 1fr;min-height:calc(100vh - 53px)}
 
 /* ── LEFT PANEL ── */
-.panel-left{background:var(--panel);display:flex;flex-direction:column;overflow-y:auto;height:calc(100vh - 53px);position:sticky;top:53px;width:360px;min-width:240px;max-width:620px;flex-shrink:0}
-
-/* ── RESIZE HANDLE ── */
-.resize-handle{width:6px;background:var(--border);cursor:col-resize;position:relative;flex-shrink:0;transition:background .15s;z-index:10;border-left:1px solid var(--border)}
-.resize-handle:hover,.resize-handle.dragging{background:var(--accent)}
-.resize-handle::before{content:'⋮';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:var(--dim);font-size:14px;letter-spacing:-.5px;line-height:1}
-
-/* ── RIGHT PANEL ── */
-.panel-right{flex:1;overflow-y:auto;min-width:0}
+.panel-left{background:var(--panel);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;max-height:calc(100vh - 53px);position:sticky;top:53px}
 .panel-section{padding:18px 20px;border-bottom:1px solid var(--border)}
 .sec-label{font-size:9px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
 .sec-label span{font-weight:300;color:var(--dim);text-transform:none;letter-spacing:0;font-size:10px}
@@ -259,28 +251,28 @@ See Prompt Guide for exact Claude format."></textarea>
     <div class="sec-label">Step 3 — Theme</div>
     <div class="themes-grid">
       <div class="theme-card active" data-theme="1" onclick="selectTheme(1)">
+        <div class="theme-swatch"><div class="swatch" style="background:#0a0a0a"></div><div class="swatch" style="background:#f0a500"></div><div class="swatch" style="background:#ffffff"></div></div>
+        <div class="theme-name">Amber Editorial</div><div class="theme-vibe">CineGrok / Panchayat</div>
+      </div>
+      <div class="theme-card" data-theme="2" onclick="selectTheme(2)">
         <div class="theme-swatch"><div class="swatch" style="background:#0e1520"></div><div class="swatch" style="background:#00d4ff"></div><div class="swatch" style="background:#f0f4f8"></div></div>
         <div class="theme-name">Midnight Blue</div><div class="theme-vibe">Editorial / Tech</div>
       </div>
-      <div class="theme-card" data-theme="2" onclick="selectTheme(2)">
+      <div class="theme-card" data-theme="3" onclick="selectTheme(3)">
         <div class="theme-swatch"><div class="swatch" style="background:#0d1a10"></div><div class="swatch" style="background:#c9a84c"></div><div class="swatch" style="background:#e8dfc8"></div></div>
         <div class="theme-name">Forest Gold</div><div class="theme-vibe">Literary / Intimate</div>
       </div>
-      <div class="theme-card" data-theme="3" onclick="selectTheme(3)">
+      <div class="theme-card" data-theme="4" onclick="selectTheme(4)">
         <div class="theme-swatch"><div class="swatch" style="background:#120404"></div><div class="swatch" style="background:#e02010"></div><div class="swatch" style="background:#f5ede0"></div></div>
         <div class="theme-name">Blood Red</div><div class="theme-vibe">Poster / Bold</div>
       </div>
-      <div class="theme-card" data-theme="4" onclick="selectTheme(4)">
+      <div class="theme-card" data-theme="5" onclick="selectTheme(5)">
         <div class="theme-swatch"><div class="swatch" style="background:#1a1410"></div><div class="swatch" style="background:#c47a6a"></div><div class="swatch" style="background:#e8c8b8"></div></div>
         <div class="theme-name">Warm Rose</div><div class="theme-vibe">Magazine / Craft</div>
       </div>
-      <div class="theme-card" data-theme="5" onclick="selectTheme(5)">
+      <div class="theme-card" data-theme="6" onclick="selectTheme(6)">
         <div class="theme-swatch"><div class="swatch" style="background:#050505"></div><div class="swatch" style="background:#d4f000"></div><div class="swatch" style="background:#ffffff"></div></div>
         <div class="theme-name">Acid Yellow</div><div class="theme-vibe">Brutal / High-contrast</div>
-      </div>
-      <div class="theme-card" data-theme="6" onclick="selectTheme(6)">
-        <div class="theme-swatch"><div class="swatch" style="background:#0a0a0a"></div><div class="swatch" style="background:#f0a500"></div><div class="swatch" style="background:#ffffff"></div></div>
-        <div class="theme-name">Amber Classic</div><div class="theme-vibe">CineGrok Original</div>
       </div>
     </div>
     <!-- Custom accent color -->
@@ -321,24 +313,26 @@ See Prompt Guide for exact Claude format."></textarea>
 
 </div><!-- /panel-left -->
 
-<!-- ── RESIZE HANDLE ── -->
-<div class="resize-handle" id="resizeHandle"></div>
-
 <!-- ── RIGHT PANEL ── -->
 <div class="panel-right">
   <div class="preview-header">
-    <div class="preview-title">Live Preview — 1080×1080px output</div>
+    <div class="preview-title">Live Preview — <span id="formatLabel">1080×1080px</span> output</div>
     <div class="preview-controls">
       <div class="col-switcher">
+        <span class="col-lbl">Size</span>
+        <button class="col-btn active" data-fmt="square" style="width:auto;padding:0 8px" onclick="setFormat('square')">1:1</button>
+        <button class="col-btn" data-fmt="portrait" style="width:auto;padding:0 8px" onclick="setFormat('portrait')">4:5</button>
+      </div>
+      <div class="col-switcher">
         <span class="col-lbl">View</span>
-        <button class="col-btn" data-cols="1" onclick="setCols(1)">1</button>
+        <button class="col-btn active" data-cols="1" onclick="setCols(1)">1</button>
         <button class="col-btn" data-cols="2" onclick="setCols(2)">2</button>
-        <button class="col-btn active" data-cols="3" onclick="setCols(3)">3</button>
+        <button class="col-btn" data-cols="3" onclick="setCols(3)">3</button>
       </div>
       <div class="slide-count-badge" id="slideCountBadge">8 slides</div>
     </div>
   </div>
-  <div class="slides-preview cols-3" id="slidesPreview"></div>
+  <div class="slides-preview cols-1" id="slidesPreview"></div>
 </div>
 
 </div><!-- /app -->
@@ -454,6 +448,9 @@ let currentTheme = 1;
 let customAccentColor = null; // overrides theme accent when set
 let slides = [];
 let bgImages = {}; // index -> dataURL
+let format = 'square'; // 'square' = 1080x1080, 'portrait' = 1080x1350 (4:5)
+const FORMATS = { square:{w:540,h:540}, portrait:{w:540,h:675} };
+function dims(){ return FORMATS[format] || FORMATS.square; }
 
 // init default slides
 function makeDefaultSlides(n){
@@ -470,13 +467,16 @@ slides = makeDefaultSlides(slideCount);
 // ─────────────────────────────────────────
 // THEMES
 // ─────────────────────────────────────────
+// Spacing/leading tokens per theme give the Panchayat "breathing" rhythm.
+// coverLH/contentLH/ctaLH = heading leading; bodyLH = body leading;
+// labelMB/headMB = gap below the eyebrow/label and below the heading.
 const THEMES = {
-  1:{bg:'#0e1520',accent:'#00d4ff',text:'#f0f4f8',dim:'#8ba4bc',headFont:'"Bebas Neue",sans-serif',bodyFont:'"IBM Plex Sans",sans-serif',monoFont:'"Space Mono",monospace',headSize:76,contentHeadSize:46,decorType:'topbar'},
-  2:{bg:'#0d1a10',accent:'#c9a84c',text:'#e8dfc8',dim:'#7a9a7e',headFont:'"Cormorant Garamond",serif',bodyFont:'"DM Sans",sans-serif',monoFont:'"DM Sans",sans-serif',headSize:58,contentHeadSize:34,italic:true,decorType:'circle'},
-  3:{bg:'#120404',accent:'#e02010',text:'#f5ede0',dim:'#9a7a6a',headFont:'"Anton",sans-serif',bodyFont:'"DM Sans",sans-serif',monoFont:'"DM Sans",sans-serif',headSize:72,contentHeadSize:46,decorType:'slash'},
-  4:{bg:'#1a1410',accent:'#c47a6a',text:'#e8c8b8',dim:'#a08070',headFont:'"Cormorant Garamond",serif',bodyFont:'"DM Sans",sans-serif',monoFont:'"DM Sans",sans-serif',headSize:52,contentHeadSize:32,italic:true,decorType:'hrule'},
-  5:{bg:'#050505',accent:'#d4f000',text:'#ffffff',dim:'#555555',headFont:'"Space Grotesk",sans-serif',bodyFont:'"Space Mono",monospace',monoFont:'"Space Mono",monospace',headSize:52,contentHeadSize:28,decorType:'bracket'},
-  6:{bg:'#0a0a0a',accent:'#f0a500',text:'#ffffff',dim:'#cccccc',headFont:'"Playfair Display",serif',bodyFont:'"DM Sans",sans-serif',monoFont:'"DM Sans",sans-serif',headSize:50,contentHeadSize:30,italic:true,decorType:'grain'},
+  1:{bg:'#0a0a0a',accent:'#f0a500',text:'#ffffff',dim:'#cccccc',headFont:"'Playfair Display',serif",bodyFont:"'DM Sans',sans-serif",monoFont:"'DM Sans',sans-serif",headSize:58,contentHeadSize:36,italic:true,decorType:'bignum',coverLH:1.06,contentLH:1.3,ctaLH:1.08,bodyLH:1.7,labelMB:26,headMB:26},
+  2:{bg:'#0e1520',accent:'#00d4ff',text:'#f0f4f8',dim:'#8ba4bc',headFont:"'Bebas Neue',sans-serif",bodyFont:"'IBM Plex Sans',sans-serif",monoFont:"'Space Mono',monospace",headSize:76,contentHeadSize:46,decorType:'topbar',coverLH:1.02,contentLH:1.1,ctaLH:1.0,bodyLH:1.7,labelMB:20,headMB:20},
+  3:{bg:'#0d1a10',accent:'#c9a84c',text:'#e8dfc8',dim:'#7a9a7e',headFont:"'Cormorant Garamond',serif",bodyFont:"'DM Sans',sans-serif",monoFont:"'DM Sans',sans-serif",headSize:58,contentHeadSize:34,italic:true,decorType:'circle',coverLH:1.1,contentLH:1.3,ctaLH:1.1,bodyLH:1.7,labelMB:22,headMB:22},
+  4:{bg:'#120404',accent:'#e02010',text:'#f5ede0',dim:'#9a7a6a',headFont:"'Anton',sans-serif",bodyFont:"'DM Sans',sans-serif",monoFont:"'DM Sans',sans-serif",headSize:72,contentHeadSize:46,decorType:'slash',coverLH:1.02,contentLH:1.1,ctaLH:1.0,bodyLH:1.7,labelMB:20,headMB:20},
+  5:{bg:'#1a1410',accent:'#c47a6a',text:'#e8c8b8',dim:'#a08070',headFont:"'Cormorant Garamond',serif",bodyFont:"'DM Sans',sans-serif",monoFont:"'DM Sans',sans-serif",headSize:52,contentHeadSize:32,italic:true,decorType:'hrule',coverLH:1.1,contentLH:1.3,ctaLH:1.1,bodyLH:1.7,labelMB:22,headMB:22},
+  6:{bg:'#050505',accent:'#d4f000',text:'#ffffff',dim:'#888888',headFont:"'Space Grotesk',sans-serif",bodyFont:"'Space Mono',monospace",monoFont:"'Space Mono',monospace",headSize:52,contentHeadSize:28,decorType:'bracket',coverLH:1.05,contentLH:1.2,ctaLH:1.05,bodyLH:1.7,labelMB:20,headMB:20},
 };
 function getAccent(th){ return customAccentColor || th.accent; }
 
@@ -655,11 +655,9 @@ function buildEditor(){
           </div>
         </div>
         <div>
-          <div class="field-label">Heading Size <span id="fsLabel-${i}">${s.fontSize||100}%</span></div>
+          <div class="field-label">Heading Size <span style="color:var(--dim);font-size:9px">auto-fit · fine-tune</span> <span id="fsLabel-${i}">${s.fontSize||100}%</span></div>
           <div class="range-wrap">
-            <input type="range" min="50" max="150" value="${s.fontSize||100}" 
-              oninput="this.nextElementSibling.textContent=this.value+'%';upd(${i},'fontSize',parseInt(this.value))">
-            <span class="range-val" id="fsLabel-${i}">${s.fontSize||100}%</span>
+            <input type="range" min="50" max="150" value="${s.fontSize||100}" oninput="upd(${i},'fontSize',parseInt(this.value));document.getElementById('fsLabel-${i}').textContent=this.value+'%'">
           </div>
         </div>
         <div>
@@ -745,12 +743,39 @@ function renderSlide(i){
 
   const el=document.getElementById(`sr-${i}`);
   if(!el) return;
+  const {w:W,h:H}=dims();
   const pw=el.parentElement?el.parentElement.offsetWidth:260;
-  const scale=pw/540;
+  const scale=pw/W;
   el.style.transform=`scale(${scale})`;
-  el.style.width='540px';el.style.height='540px';
-  if(el.parentElement) el.parentElement.style.height=(540*scale)+'px';
+  el.style.width=W+'px';el.style.height=H+'px';
+  if(el.parentElement){ el.parentElement.style.aspectRatio='auto'; el.parentElement.style.height=(H*scale)+'px'; }
   el.innerHTML=buildSlideHTML(s,i,th,acc,bgImages[i]);
+}
+
+// ─────────────────────────────────────────
+// AUTO-FIT HEADING SIZE
+// Binary-search the largest font size whose wrapped text still fits the
+// heading box — short headings grow big and dominant, long ones shrink to fit.
+// ─────────────────────────────────────────
+let _measEl=null;
+function measureFitSize(linesHTML, fontFamily, fontWeight, lineHeight, boxW, boxH, minSize, maxSize){
+  if(!linesHTML || !String(linesHTML).trim()) return Math.round((minSize+maxSize)/2);
+  if(!_measEl){
+    _measEl=document.createElement('div');
+    document.body.appendChild(_measEl);
+  }
+  const el=_measEl;
+  // Fixed width + wrapping means width always fits — the only real constraint
+  // is height, so we binary-search the largest size whose wrapped text fits boxH.
+  el.style.cssText=`position:absolute;left:-99999px;top:0;visibility:hidden;box-sizing:border-box;padding:0;margin:0;display:block;width:${boxW}px;white-space:normal;overflow-wrap:anywhere;word-break:normal;font-family:${fontFamily};font-weight:${fontWeight};line-height:${lineHeight};`;
+  el.innerHTML=linesHTML;
+  let lo=minSize, hi=maxSize, best=minSize;
+  for(let k=0;k<18;k++){
+    const mid=(lo+hi)/2;
+    el.style.fontSize=mid+'px';
+    if(el.scrollHeight<=boxH){ best=mid; lo=mid; } else { hi=mid; }
+  }
+  return Math.floor(best);
 }
 
 // ─────────────────────────────────────────
@@ -758,6 +783,7 @@ function renderSlide(i){
 // ─────────────────────────────────────────
 function buildSlideHTML(s, idx, th, acc, bgImg){
   const total = slides.length;
+  const {w:W,h:H} = dims();
   const slideNum = `${String(idx+1).padStart(2,'0')}/${String(total).padStart(2,'0')}`;
   const aC=`color:${acc}`;
   const tC=`color:${th.text}`;
@@ -767,6 +793,10 @@ function buildSlideHTML(s, idx, th, acc, bgImg){
   const textAlign = `text-align:${align}`;
   const flexAlign = align==='center'?'align-items:center':align==='right'?'align-items:flex-end':'align-items:flex-start';
   const fsScale = (s.fontSize||100)/100;
+  // leading + block-gap tokens (fall back to sensible defaults for older themes)
+  const coverLH = th.coverLH||1.08, contentLH = th.contentLH||1.3, ctaLH = th.ctaLH||1.1;
+  const bodyLH = th.bodyLH||1.7, labelMB = th.labelMB||22, headMB = th.headMB||22;
+  const frame = `width:${W}px;height:${H}px`;
 
   // bg image layer
   const bgLayer = bgImg
@@ -782,13 +812,27 @@ function buildSlideHTML(s, idx, th, acc, bgImg){
     if(th.decorType==='hrule') decor=`<div style="position:absolute;top:52px;left:52px;right:52px;height:1px;background:linear-gradient(90deg,${acc},transparent);opacity:.25;z-index:5"></div>`;
     if(th.decorType==='bracket') decor=`<div style="position:absolute;top:36px;right:36px;width:44px;height:44px;border-top:2px solid ${acc};border-right:2px solid ${acc};opacity:.4;z-index:2"></div>`;
     if(th.decorType==='circle') decor=`<div style="position:absolute;right:48px;top:48px;width:70px;height:70px;border:1px solid ${acc}22;border-radius:50%;z-index:1"></div>`;
+    // 'bignum' = large faded glyph/number in the corner, Panchayat-style editorial depth
+    if(th.decorType==='bignum'){
+      const glyph = s.type==='cover' ? (s.bgGlyph||'') : String(idx+1);
+      if(glyph) decor=`<div style="position:absolute;bottom:-40px;right:-10px;font-family:${th.headFont};font-style:italic;font-weight:900;font-size:240px;line-height:1;${aC};opacity:.05;z-index:1;pointer-events:none;user-select:none">${glyph}</div>`;
+    }
   }
 
   const grain=`<div style="position:absolute;inset:0;background-image:url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22 opacity=%220.04%22/%3E%3C/svg%3E');background-size:200px;pointer-events:none;z-index:11"></div>`;
   const wm=`<div style="position:absolute;bottom:20px;left:22px;font-family:${th.monoFont};font-size:10px;letter-spacing:.18em;text-transform:uppercase;${aC};z-index:12;opacity:.55">Carousel Builder</div>`;
   const sn=`<div style="position:absolute;top:20px;right:22px;font-family:${th.monoFont};font-size:10px;letter-spacing:.15em;${aC};z-index:12;opacity:.55">${slideNum}</div>`;
 
-  const headFontSize = Math.round((s.type==='cover'?th.headSize:s.type==='cta'?th.headSize:th.contentHeadSize)*fsScale);
+  // Auto-fit: base size found by measurement, then scaled by the per-slide slider (default 100%).
+  const headBoxW = W - 104; // 52px horizontal padding each side
+  let autoMin, autoMax, autoBoxH, headWeight;
+  if(s.type==='cover'){ autoMin=Math.round(th.headSize*0.8); autoMax=Math.round(th.headSize*1.5); autoBoxH=H*0.52; headWeight=900; }
+  else if(s.type==='cta'){ autoMin=Math.round(th.headSize*0.75); autoMax=Math.round(th.headSize*1.35); autoBoxH=H*0.34; headWeight=900; }
+  else { autoMin=Math.round(th.contentHeadSize*0.85); autoMax=Math.round(th.contentHeadSize*1.8); autoBoxH=H*0.50; headWeight=700; }
+  const headLH = s.type==='cover'?coverLH:s.type==='cta'?ctaLH:contentLH;
+  const measureLines = (s.heading||'').split('\n').join('<br>');
+  const autoFit = measureFitSize(measureLines, th.headFont, headWeight, headLH, headBoxW, autoBoxH, autoMin, autoMax);
+  const headFontSize = Math.max(8, Math.round(autoFit*fsScale));
 
   function headingHTML(text, accent, italic){
     const lines=(text||'').split('\n');
@@ -800,24 +844,24 @@ function buildSlideHTML(s, idx, th, acc, bgImg){
   }
 
   if(s.type==='cover'){
-    return `<div style="width:540px;height:540px;${bgImg?'':bgC};position:relative;overflow:hidden">
+    return `<div style="${frame};${bgImg?'':bgC};position:relative;overflow:hidden">
       ${bgLayer}${grain}${decor}${wm}
       <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:56px 52px;z-index:5;${flexAlign}">
-        <div style="font-size:9px;font-weight:500;letter-spacing:.3em;text-transform:uppercase;${aC};margin-bottom:22px;font-family:${th.bodyFont};${textAlign}">ADIRA × Carousel Builder</div>
-        <div style="font-family:${th.headFont};font-size:${headFontSize}px;line-height:1.0;${tC};margin-bottom:20px;${textAlign}">${headingHTML(s.heading,acc,th.italic)}</div>
-        <div style="font-size:13px;font-weight:300;line-height:1.7;${dC};max-width:360px;font-family:${th.bodyFont};${textAlign}">${s.sub||''}</div>
+        <div style="font-size:9px;font-weight:500;letter-spacing:.3em;text-transform:uppercase;${aC};margin-bottom:${labelMB}px;font-family:${th.bodyFont};${textAlign}">ADIRA × Carousel Builder</div>
+        <div style="font-family:${th.headFont};font-weight:900;font-size:${headFontSize}px;line-height:${coverLH};${tC};margin-bottom:${headMB}px;${textAlign}">${headingHTML(s.heading,acc,th.italic)}</div>
+        <div style="font-size:13px;font-weight:300;line-height:${bodyLH};${dC};max-width:360px;font-family:${th.bodyFont};${textAlign}">${s.sub||''}</div>
       </div>
     </div>`;
   }
 
   if(s.type==='cta'){
     const ctaLines=(s.heading||'').split('\n').map((l,li)=>li===1?`<span style="color:${acc}${th.italic?';font-style:italic':''}">${l}</span>`:l).join('<br>');
-    return `<div style="width:540px;height:540px;${bgImg?'':bgC};position:relative;overflow:hidden">
+    return `<div style="${frame};${bgImg?'':bgC};position:relative;overflow:hidden">
       ${bgLayer}${grain}${wm}
       <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,${acc}18 0%,transparent 65%);z-index:2"></div>
       <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:52px;z-index:5">
         <div style="width:48px;height:1px;background:${acc};margin:0 auto 28px;opacity:.6"></div>
-        <div style="font-family:${th.headFont};font-size:${headFontSize}px;line-height:1.1;${tC};margin-bottom:12px">${ctaLines}</div>
+        <div style="font-family:${th.headFont};font-weight:900;font-size:${headFontSize}px;line-height:${ctaLH};${tC};margin-bottom:16px">${ctaLines}</div>
         <div style="font-size:14px;font-weight:500;letter-spacing:.12em;${aC};font-family:${th.bodyFont};margin-bottom:6px">${s.sub||''}</div>
         <div style="font-size:10px;font-weight:300;letter-spacing:.2em;text-transform:uppercase;${dC};font-family:${th.monoFont};margin-top:8px">carouselbuilder.app</div>
       </div>
@@ -827,12 +871,12 @@ function buildSlideHTML(s, idx, th, acc, bgImg){
 
   // content
   const accentBar=`<div style="position:absolute;left:0;top:25%;height:50%;width:3px;background:${acc};opacity:.25;z-index:3"></div>`;
-  return `<div style="width:540px;height:540px;${bgImg?'':bgC};position:relative;overflow:hidden">
+  return `<div style="${frame};${bgImg?'':bgC};position:relative;overflow:hidden">
     ${bgLayer}${grain}${decor}${accentBar}${wm}${sn}
     <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:56px 52px 64px;z-index:5;${flexAlign}">
-      <div style="font-size:9px;font-weight:500;letter-spacing:.3em;text-transform:uppercase;${aC};margin-bottom:16px;font-family:${th.bodyFont};${textAlign}">${s.label||''}</div>
-      <div style="font-family:${th.headFont};font-size:${headFontSize}px;line-height:1.15;${tC};margin-bottom:18px;${textAlign}">${headingHTML(s.heading,acc,th.italic)}</div>
-      <div style="font-size:13px;font-weight:300;line-height:1.75;${dC};max-width:390px;font-family:${th.bodyFont};${textAlign}">${s.body||''}</div>
+      <div style="font-size:9px;font-weight:500;letter-spacing:.3em;text-transform:uppercase;${aC};margin-bottom:${labelMB}px;font-family:${th.bodyFont};${textAlign}">${s.label||''}</div>
+      <div style="font-family:${th.headFont};font-weight:700;font-size:${headFontSize}px;line-height:${contentLH};${tC};margin-bottom:${headMB}px;${textAlign}">${headingHTML(s.heading,acc,th.italic)}</div>
+      <div style="font-size:13px;font-weight:300;line-height:${bodyLH};${dC};max-width:390px;font-family:${th.bodyFont};${textAlign}">${s.body||''}</div>
     </div>
   </div>`;
 }
@@ -843,8 +887,15 @@ function buildSlideHTML(s, idx, th, acc, bgImg){
 function setCols(n){
   const p=document.getElementById('slidesPreview');
   p.className=`slides-preview cols-${n}`;
-  document.querySelectorAll('.col-btn').forEach(b=>b.classList.toggle('active',parseInt(b.dataset.cols)===n));
+  document.querySelectorAll('.col-btn').forEach(b=>{ if(b.dataset.cols) b.classList.toggle('active',parseInt(b.dataset.cols)===n); });
   setTimeout(renderAll,60);
+}
+function setFormat(f){
+  format = (f==='portrait')?'portrait':'square';
+  document.querySelectorAll('.col-btn[data-fmt]').forEach(b=>b.classList.toggle('active',b.dataset.fmt===format));
+  const {w,h}=dims();
+  document.getElementById('formatLabel').textContent=`${w*2}×${h*2}px`;
+  setTimeout(renderAll,40);
 }
 
 // ─────────────────────────────────────────
@@ -855,38 +906,25 @@ function renderSlideToCanvas(i){
     const s=slides[i];
     const th={...THEMES[currentTheme]};
     const acc=getAccent(th);
+    const {w:W,h:H}=dims();
     const clone=document.createElement('div');
-    // Must be visible in DOM for html2canvas to render fonts correctly
-    clone.style.cssText='width:540px;height:540px;position:fixed;left:-9999px;top:0;visibility:hidden;';
+    // visibility:visible overrides the hidden #renderArea — without it html2canvas captures a blank square
+    clone.style.cssText=`width:${W}px;height:${H}px;position:absolute;left:-9999px;top:0;visibility:visible;`;
     clone.innerHTML=buildSlideHTML(s,i,th,acc,bgImages[i]);
-    document.body.appendChild(clone);
+    document.getElementById('renderArea').appendChild(clone);
 
-    // wait for images + a small paint settle so fonts render
+    // wait for images AND web fonts — html2canvas falls back to a generic serif
+    // if Playfair/Cormorant/etc. aren't fully loaded at capture time
     const imgs=clone.querySelectorAll('img');
     const loads=Array.from(imgs).map(img=>new Promise(r=>{if(img.complete)r();else{img.onload=r;img.onerror=r;}}));
-    Promise.all(loads).then(()=>{
-      // small settle for font rendering
-      setTimeout(()=>{
-        html2canvas(clone,{
-          scale:2,
-          useCORS:true,
-          allowTaint:true,
-          backgroundColor:bgImages[i]?null:th.bg,
-          logging:false,
-          onclone:(doc,el)=>{
-            // make clone visible in the cloned document so fonts paint
-            el.style.visibility='visible';
-          }
-        })
+    const fontReady=(document.fonts&&document.fonts.ready)?document.fonts.ready:Promise.resolve();
+    Promise.all([...loads,fontReady]).then(()=>{
+      html2canvas(clone,{scale:2,useCORS:true,allowTaint:true,backgroundColor:bgImages[i]?null:th.bg,logging:false})
         .then(canvas=>{
-          document.body.removeChild(clone);
+          document.getElementById('renderArea').removeChild(clone);
           resolve(canvas);
         })
-        .catch(()=>{
-          try{document.body.removeChild(clone);}catch(e){}
-          resolve(null);
-        });
-      }, 120);
+        .catch(()=>{document.getElementById('renderArea').removeChild(clone);resolve(null);});
     });
   });
 }
@@ -1015,44 +1053,11 @@ function showToast(msg,type=''){
 window.addEventListener('load',()=>{
   renderAll();
   buildEditor();
+  // re-measure once web fonts finish loading so auto-fit uses real font metrics
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(()=>renderAll());
   let rt;
   window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(renderAll,150);});
 });
-
-// ─────────────────────────────────────────
-// RESIZABLE PANEL
-// ─────────────────────────────────────────
-(function(){
-  const handle = document.getElementById('resizeHandle');
-  const panel = document.querySelector('.panel-left');
-  if(!handle || !panel) return;
-  let dragging = false, startX = 0, startW = 0;
-
-  handle.addEventListener('mousedown', e=>{
-    dragging = true;
-    startX = e.clientX;
-    startW = panel.offsetWidth;
-    handle.classList.add('dragging');
-    document.body.style.cursor = 'col-resize';
-    document.body.style.userSelect = 'none';
-  });
-
-  document.addEventListener('mousemove', e=>{
-    if(!dragging) return;
-    const delta = e.clientX - startX;
-    const newW = Math.min(620, Math.max(240, startW + delta));
-    panel.style.width = newW + 'px';
-  });
-
-  document.addEventListener('mouseup', ()=>{
-    if(!dragging) return;
-    dragging = false;
-    handle.classList.remove('dragging');
-    document.body.style.cursor = '';
-    document.body.style.userSelect = '';
-    setTimeout(renderAll, 100); // re-scale preview after resize
-  });
-})();
 </script>
 </body>
 </html>
