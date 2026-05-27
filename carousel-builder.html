@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Carousel Builder — Free Open Source Tool</title>
+<title>CineGrok — Carousel Builder</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Anton&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;1,300&family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -190,7 +190,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 
 <!-- ── HEADER ── -->
 <header>
-  <div class="logo">Carousel Builder <sub>Free & Open Source</sub></div>
+  <div class="logo">CineGrok <sub>Carousel Builder</sub></div>
   <div class="header-actions">
     <button class="hbtn" onclick="openGuide()">📋 Prompt Guide</button>
     <a class="hbtn" href="https://github.com/" target="_blank">⭐ GitHub</a>
@@ -457,7 +457,7 @@ function makeDefaultSlides(n){
   const arr = [];
   for(let i=0;i<n;i++){
     if(i===0) arr.push({label:'COVER',heading:'Your headline\nhere.',sub:'Supporting subtext for the cover.',type:'cover',align:'left',fontSize:100});
-    else if(i===n-1) arr.push({label:'CTA',heading:'Find your\npeople.',sub:'yourcreation.com',type:'cta',align:'center',fontSize:100});
+    else if(i===n-1) arr.push({label:'CTA',heading:'Find your\npeople.',sub:'cinegrok.in',type:'cta',align:'center',fontSize:100});
     else arr.push({label:`SLIDE ${i+1}`,heading:`Slide ${i+1} heading.`,body:'Body text for this slide goes here.',type:'content',align:'left',fontSize:100});
   }
   return arr;
@@ -820,7 +820,7 @@ function buildSlideHTML(s, idx, th, acc, bgImg){
   }
 
   const grain=`<div style="position:absolute;inset:0;background-image:url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22 opacity=%220.04%22/%3E%3C/svg%3E');background-size:200px;pointer-events:none;z-index:11"></div>`;
-  const wm=`<div style="position:absolute;bottom:20px;left:22px;font-family:${th.monoFont};font-size:10px;letter-spacing:.18em;text-transform:uppercase;${aC};z-index:12;opacity:.55">Carousel Builder</div>`;
+  const wm=`<div style="position:absolute;bottom:20px;left:22px;font-family:${th.monoFont};font-size:10px;letter-spacing:.18em;text-transform:uppercase;${aC};z-index:12;opacity:.55">CineGrok</div>`;
   const sn=`<div style="position:absolute;top:20px;right:22px;font-family:${th.monoFont};font-size:10px;letter-spacing:.15em;${aC};z-index:12;opacity:.55">${slideNum}</div>`;
 
   // Auto-fit: base size found by measurement, then scaled by the per-slide slider (default 100%).
@@ -847,7 +847,7 @@ function buildSlideHTML(s, idx, th, acc, bgImg){
     return `<div style="${frame};${bgImg?'':bgC};position:relative;overflow:hidden">
       ${bgLayer}${grain}${decor}${wm}
       <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:56px 52px;z-index:5;${flexAlign}">
-        <div style="font-size:9px;font-weight:500;letter-spacing:.3em;text-transform:uppercase;${aC};margin-bottom:${labelMB}px;font-family:${th.bodyFont};${textAlign}">ADIRA × Carousel Builder</div>
+        <div style="font-size:9px;font-weight:500;letter-spacing:.3em;text-transform:uppercase;${aC};margin-bottom:${labelMB}px;font-family:${th.bodyFont};${textAlign}">CineGrok</div>
         <div style="font-family:${th.headFont};font-weight:900;font-size:${headFontSize}px;line-height:${coverLH};${tC};margin-bottom:${headMB}px;${textAlign}">${headingHTML(s.heading,acc,th.italic)}</div>
         <div style="font-size:13px;font-weight:300;line-height:${bodyLH};${dC};max-width:360px;font-family:${th.bodyFont};${textAlign}">${s.sub||''}</div>
       </div>
@@ -863,7 +863,7 @@ function buildSlideHTML(s, idx, th, acc, bgImg){
         <div style="width:48px;height:1px;background:${acc};margin:0 auto 28px;opacity:.6"></div>
         <div style="font-family:${th.headFont};font-weight:900;font-size:${headFontSize}px;line-height:${ctaLH};${tC};margin-bottom:16px">${ctaLines}</div>
         <div style="font-size:14px;font-weight:500;letter-spacing:.12em;${aC};font-family:${th.bodyFont};margin-bottom:6px">${s.sub||''}</div>
-        <div style="font-size:10px;font-weight:300;letter-spacing:.2em;text-transform:uppercase;${dC};font-family:${th.monoFont};margin-top:8px">carouselbuilder.app</div>
+        <div style="font-size:10px;font-weight:300;letter-spacing:.2em;text-transform:uppercase;${dC};font-family:${th.monoFont};margin-top:8px">cinegrok.in</div>
       </div>
       <div style="position:absolute;bottom:20px;right:22px;font-family:${th.monoFont};font-size:10px;letter-spacing:.15em;${aC};z-index:12;opacity:.55">${slideNum}</div>
     </div>`;
